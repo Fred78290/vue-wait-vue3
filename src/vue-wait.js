@@ -56,6 +56,8 @@ export default class VueWait {
       App.directive(this.options.directiveName, vWaitDirective);
     }
 
+    let config;
+
     if (this.options.useVuex) {
       const { vuexModuleName } = this.options;
       if (!store) {
@@ -67,7 +69,7 @@ export default class VueWait {
         store.registerModule(vuexModuleName, vuexStore);
       }
 
-      const config = {
+      config = {
         computed: {
           is: () => waiter => store.getters[`${vuexModuleName}/is`](waiter),
           any: () => store.getters[`${vuexModuleName}/any`],
@@ -75,17 +77,8 @@ export default class VueWait {
             store.getters[`${vuexModuleName}/percent`](waiter)
         }
       };
-
-      if (VueWait.getVueVersion(App) > 2) {
-        const { createApp } = require('vue');
-        this.stateHandler = createApp(config).mount(
-          document.createElement('div')
-        );
-      } else {
-        this.stateHandler = new App(config);
-      }
     } else {
-      const config = {
+      config = {
         data() {
           return {
             waitingFor: [],
@@ -116,15 +109,16 @@ export default class VueWait {
           }
         }
       };
+    }
 
-      if (VueWait.getVueVersion(App) > 2) {
-        const { createApp } = require('vue');
-        this.stateHandler = createApp(config).mount(
-          document.createElement('div')
-        );
-      } else {
-        this.stateHandler = new App(config);
-      }
+    if (VueWait.getVueVersion(App) > 2) {
+      const { createApp, h } = require('vue');
+      config.render = () => h('div');
+      this.stateHandler = createApp(config).mount(
+        document.createElement('div')
+      );
+    } else {
+      this.stateHandler = new App(config);
     }
 
     this.initialized = true;
