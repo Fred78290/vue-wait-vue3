@@ -1,5 +1,13 @@
 # vue-wait changelog
 
+## 1.5.4
+- Suppress warning 'component is missing template or render function' with vue3
+- factorize a bit
+- Update package.json
+- Drop yarn and use npm
+- Replace action
+- Drop dist directory from repository
+
 ## v1.2.0
 - Rename `isWaiting` to `is` to make the code less crowded.
 - Better array matching
