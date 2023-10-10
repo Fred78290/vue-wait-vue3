@@ -2,10 +2,15 @@ module.exports = env => {
   const isV3 = !!env.v3
   const loaderName = `vue-loader${isV3 ? '': '-old'}`;
   const { VueLoaderPlugin } = require(loaderName);
+  const TerserPlugin = require("terser-webpack-plugin");
 
   return {
     mode: process.env.NODE_ENV,
     entry: ["./src/vue-wait.js"],
+	optimization: {
+	  minimize: true,
+	  minimizer: [new TerserPlugin()],
+	},
     output: {
       library: "VueWait",
       libraryTarget: "umd",
@@ -23,7 +28,12 @@ module.exports = env => {
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
-            loader: "babel-loader"
+            loader: "babel-loader",
+			options: {
+			  presets: [
+			    ['@babel/preset-env', { targets: "defaults" }]
+			  ]
+			}
           }
         }
       ]
