@@ -1,7 +1,7 @@
 {
-  "name": "vue-wait-vue3",
+  "name": "@fred78290/vue-wait-vue3",
   "description": "Vue Plugin for Global Loading Management",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "license": "MIT",
   "author": "Fatih Kadir Akın <fatihkadirakin@gmail.com>",
   "keywords": [
